@@ -1,3 +1,4 @@
+export 'screens/notification_screen.dart';
 export 'screens/all_notification_screen.dart';
 export 'screens/info_and_promo_screen.dart';
 export 'screens/transaction_screen.dart';
