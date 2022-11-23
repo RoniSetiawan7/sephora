@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'notification/notification.dart';
+import 'on_boarding/on_boarding.dart';
 
 void main() {
   runApp(const MyApp());
@@ -14,7 +14,7 @@ class MyApp extends StatelessWidget {
     return const MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'Sephora',
-      home: NotificationScreen(),
+      home: OnBoardingScreen(),
     );
   }
 }
