@@ -2,7 +2,13 @@ import 'package:flutter/material.dart';
 
 class LanguageSwitcher extends StatefulWidget {
   final Function(bool) isID;
-  const LanguageSwitcher({Key? key, required this.isID}) : super(key: key);
+  final bool id;
+
+  const LanguageSwitcher({
+    Key? key,
+    required this.isID,
+    required this.id,
+  }) : super(key: key);
 
   @override
   State<LanguageSwitcher> createState() => _LanguageSwitcherState();
@@ -22,8 +28,9 @@ class _LanguageSwitcherState extends State<LanguageSwitcher>
   late Animation _horizontalMovementAnimation;
 
   @override
-  @override
   void initState() {
+    _isID = widget.id;
+
     super.initState();
     _animationController = AnimationController(
       vsync: this,
@@ -36,6 +43,11 @@ class _LanguageSwitcherState extends State<LanguageSwitcher>
     _animationController.addListener(() {
       setState(() {});
     });
+    if (widget.id) {
+      _animationController.reverse();
+    } else {
+      _animationController.forward();
+    }
   }
 
   @override

@@ -3,6 +3,7 @@ import 'package:sephora/on_boarding/widgets/language_swither.dart';
 import 'package:sephora/on_boarding/widgets/on_boarding_carousel.dart';
 import 'package:sephora/on_boarding/widgets/on_boarding_indicator.dart';
 import 'package:sephora/on_boarding/widgets/on_boarding_description.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OnBoardingScreen extends StatefulWidget {
   const OnBoardingScreen({super.key});
@@ -33,7 +34,29 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                     color: Color(0xFF2F82FF),
                   ),
                 ),
-                LanguageSwitcher(isID: (isID) {})
+                FutureBuilder<bool>(
+                  future: getLang(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.done) {
+                      if (snapshot.hasData) {
+                        return LanguageSwitcher(
+                          id: snapshot.data ?? false,
+                          isID: (bahasa) {
+                            setLang(bahasa);
+                          },
+                        );
+                      } else {
+                        return LanguageSwitcher(
+                          id: false,
+                          isID: (bahasa) {
+                            setLang(bahasa);
+                          },
+                        );
+                      }
+                    }
+                    return const SizedBox();
+                  },
+                ),
               ],
             ),
             const SizedBox(height: 58),
@@ -69,5 +92,15 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
         ),
       ),
     );
+  }
+
+  Future<bool> setLang(value) async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.setBool('bahasa', value);
+  }
+
+  Future<bool> getLang() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    return preferences.getBool('bahasa') ?? true;
   }
 }
